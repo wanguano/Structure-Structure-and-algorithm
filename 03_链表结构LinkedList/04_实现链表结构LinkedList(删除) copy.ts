@@ -85,6 +85,36 @@ class LinkedList<T> {
     this.size++
     return true
   }
+
+  // 删除节点
+  removeAt(position: number): T | null {
+    // 1.越界情况 <0 || >链表长度
+    if (position < 0 || position >= this.size) return null
+
+    let willRemoveElement: T
+    // 1.删除头节点
+    if (position === 0 && this.head) {
+      willRemoveElement = this.head.element
+      // 目的：让头节点，指向第二个节点(改变头节点指向)
+      this.head = this.head?.next
+    } else {
+      // 删除中间节点
+      let previousNode: Node<T> | null
+      let currentNode: Node<T> | null = this.head
+      let index: number = 0
+      while (index++ < position && currentNode) {
+        // 前一个节点
+        previousNode = currentNode
+        // 后一个节点
+        currentNode = currentNode.next
+      }
+      willRemoveElement = currentNode!.element
+      // 让前一个节点的next指向为当前节点的next
+      previousNode!.next = currentNode?.next || null
+    }
+    this.size--
+    return willRemoveElement
+  }
 }
 
 const linkedList = new LinkedList<string>()
@@ -94,10 +124,12 @@ linkedList.append('ccc')
 linkedList.append('ddd')
 linkedList.traverse()
 
-
+// linkedList.removeAt(0)
+console.log(linkedList.removeAt(3))
+linkedList.traverse()
 // linkedList.insert('abc', 0)
 // linkedList.traverse()
-linkedList.insert('abc', 3)
-linkedList.traverse()
+// linkedList.insert('abc', 3)
+// linkedList.traverse()
 
 export {}

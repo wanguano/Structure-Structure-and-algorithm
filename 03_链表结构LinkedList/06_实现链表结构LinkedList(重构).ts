@@ -17,6 +17,17 @@ class LinkedList<T> {
   private head: Node<T> | null = null
   private size: number = 0
 
+  // 获取目标节点
+  private getNode(position: number): Node<T> | null {
+    if (position < 0 || position >= this.size) return null
+    let targetNode: Node<T> | null = this.head
+    let index: number = 0
+    while (index++ < position && targetNode) {
+      targetNode = targetNode.next
+    }
+    return targetNode
+  }
+
   // 链表大小
   get length(): number {
     return this.size
@@ -65,25 +76,42 @@ class LinkedList<T> {
       newNode.next = this.head
       this.head = newNode
     } else {
-      // 插入中间位置
-      // 1.拿到当前要插入的节点
-      let index: number = 0
-      let previousNode: Node<T> | null = null
-      let currentNode: Node<T> | null = this.head
-      // 找到目标节点
-      while (index++ < position && currentNode) {
-        // 拿到前一个节点
-        previousNode = currentNode
-        // 指向下一个节点
-        currentNode = currentNode?.next
-      }
-      // 1.新插入的节点,指向当前节点
-      newNode.next = currentNode
-      // 2.上一个节点,指向新插入的节点
+      let previousNode: Node<T> | null = this.getNode(position - 1)
+      newNode.next = previousNode!.next
       previousNode!.next = newNode
     }
     this.size++
     return true
+  }
+
+  // 删除节点
+  removeAt(position: number): T | null {
+    // 1.越界情况 <0 || >链表长度
+    if (position < 0 || position >= this.size) return null
+
+    let willRemoveElement: T
+    // 1.删除头节点
+    if (position === 0 && this.head) {
+      willRemoveElement = this.head.element
+      // 目的：让头节点，指向第二个节点(改变头节点指向)
+      this.head = this.head?.next
+    } else {
+      // 删除中间节点
+      let previousNode: Node<T> | null
+      previousNode = this.getNode(position - 1)
+      previousNode!.next = previousNode?.next?.next ?? null
+      willRemoveElement = previousNode!.element
+    }
+    this.size--
+    return willRemoveElement
+  }
+
+  // 获取值(目标值,根据下标)
+  get(position: number): T | null {
+    // 1.越界情况 <0 || >链表长度
+    if (position < 0 || position >= this.size) return null
+    // 目标返回节点
+    return this.getNode(position)?.element ?? null
   }
 }
 
@@ -94,10 +122,21 @@ linkedList.append('ccc')
 linkedList.append('ddd')
 linkedList.traverse()
 
-
+console.log('--------insert----------')
+linkedList.insert('cba', 0)
+linkedList.insert('nba', 4)
+linkedList.traverse()
+console.log('--------remove----------')
+linkedList.removeAt(0)
+linkedList.removeAt(0)
+linkedList.removeAt(3)
+linkedList.traverse()
+// console.log(linkedList.get(0))
+// console.log(linkedList.get(3))
+// console.log(linkedList.get(3))
 // linkedList.insert('abc', 0)
 // linkedList.traverse()
-linkedList.insert('abc', 3)
-linkedList.traverse()
+// linkedList.insert('abc', 3)
+// linkedList.traverse()
 
 export {}

@@ -45,5 +45,4 @@ class LinkedList<T> {
 const linkedList = new LinkedList<string>()
 linkedList.append('aaa')
 linkedList.append('bbb')
-// todo 代办
 export {}
