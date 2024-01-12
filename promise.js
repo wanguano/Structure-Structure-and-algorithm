@@ -11,19 +11,23 @@
 // await Promise.all([1, Promise.reject(2)]);
 //-> Throw Error: 2
 
-// Promise.myAll = function(elements) {
-//   let result = []
-//   elements.forEach((item) => {
-//     if(typeof(item) === 'string' ||typeof(item) === 'number' ){
-//       result.push(item)
-//     }else if(Object.prototype.toString(item) === 'promise') {
-//       item.then((value) => {
-//         result.push(value)
-//       }).catch((err) => {
-//         throw new Error(value)
-//       })``
-//     }
-//   })
+function Person(name,age) {
+  this.name = name
+  this.age = age
+}
 
-//   return result
-// }
+// 实现new操作符功能
+function create(fn, arguments) {
+  if(typeof fn !== 'function') return false
+  // 创建一个空对象
+  const obj = {}
+  // 改变原型的指向
+  obj.__proto__ = fn?.prototype
+  // 改变函数中的this指向为当前对象
+  Person.apply(obj, ...arguments)
+  // 返回当前对象
+  return obj
+}
+
+const p1 = create(Person, 'foo', 18)
+console.log(p1.name)

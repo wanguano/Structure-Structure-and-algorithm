@@ -23,4 +23,5 @@ function binarySearch(numsList: number[], value: number) {
   }
   return -1
 }
-console.log(binarySearch([1, 22, 33, 45, 52, 67, 100, 222], 67))
+// console.log(binarySearch([1, 22, 33, 45, 52, 67, 100, 222], 67))
+export default binarySearch
