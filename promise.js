@@ -11,19 +11,19 @@
 // await Promise.all([1, Promise.reject(2)]);
 //-> Throw Error: 2
 
-Promise.myAll = function(elements) {
-  let result = []
-  elements.forEach((item) => {
-    if(typeof(item) === 'string' ||typeof(item) === 'number' ){
-      result.push(item)
-    }else if(Object.prototype.toString(item) === 'promise') {
-      item.then((value) => {
-        result.push(value)
-      }).catch((err) => {
-        throw new Error(value)
-      })``
-    }
-  })
+// Promise.myAll = function(elements) {
+//   let result = []
+//   elements.forEach((item) => {
+//     if(typeof(item) === 'string' ||typeof(item) === 'number' ){
+//       result.push(item)
+//     }else if(Object.prototype.toString(item) === 'promise') {
+//       item.then((value) => {
+//         result.push(value)
+//       }).catch((err) => {
+//         throw new Error(value)
+//       })``
+//     }
+//   })
 
-  return result
-}
+//   return result
+// }
